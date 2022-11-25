@@ -27,7 +27,7 @@ from ply.yacc import yacc
 # All tokens must be named in advance.
 # tokens = ( 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN',
 #           'NAME', 'NUMBER' )
-tokens = ('CHARACTER', 'INTEGER', 'FLOAT', 'KEY', 'VALUE', 'COLON', 'LCURL', 'RCURL', 'LPAREN', 'RPAREN', 'COMMA', 'INSERT', 'DB', 'TABLE', 'DOT')
+tokens = ('CHARACTER', 'INTEGER', 'FLOAT', 'KEY', 'COLON', 'LCURL', 'RCURL', 'LPAREN', 'RPAREN', 'COMMA', 'INSERT', 'DB', 'TABLE', 'DOT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -43,8 +43,7 @@ t_ignore = ' \t'
 t_CHARACTER = r'[a-zA-Z_][a-zA-Z_]*'
 t_INTEGER = r'[]'
 t_FLOAT = r''
-t_KEY = r'' # NEED FIX
-t_VALUE = r''   # NEED FIX
+t_KEY = r'[a-zA-Z_][a-zA-Z_]*'
 t_COLON = r'\:'
 t_LCURL = r'\{'
 t_RCURL = r'\}'
@@ -52,16 +51,16 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_COMMA = r'\,'
 t_INSERT = r'\insert'
-t_DB = r''  # NEED FIX
-t_TABLE = r''   # NEED FIX
+t_DB = r'[a-zA-Z_][a-zA-Z_]*'
+t_TABLE = r'[a-zA-Z_][a-zA-Z_]*'
 t_DOT = r'\.'
 
 # A function can be used if there is an associated action.
 # Write the matching regex in the docstring.
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
+# def t_NUMBER(t):
+#     r'\d+'
+#     t.value = int(t.value)
+#     return t
 
 # Ignored token with an action associated with it
 def t_ignore_newline(t):
@@ -138,7 +137,7 @@ def p_factor_grouped(p):
 
 def p_error(p):
     print(f'Syntax error at {p.value!r}')
-
+    
 # Build the parser
 parser = yacc()
 
