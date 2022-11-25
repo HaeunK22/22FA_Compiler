@@ -18,6 +18,16 @@
 #              | LPAREN expression RPAREN
 #
 # -----------------------------------------------------------------------------
+# SQLparser.py
+#
+#   expression : DB DOT TABLE DOT INSERT LPAREN LCURL term RCURL RPAREN
+#
+#   term : KEY COLON value
+#        | term COMMA term
+#
+#   value : CHARACTER
+#         | INTEGER
+#         | FLOAT
 
 from ply.lex import lex
 from ply.yacc import yacc
