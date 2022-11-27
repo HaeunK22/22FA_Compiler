@@ -1,10 +1,18 @@
 # -----------------------------------------------------------------------------
 # SQLparser.py
 #
-#   expression : DB DOT TABLE DOT INSERT LPAREN LCURL term RCURL RPAREN
+#   expression : db DOT table DOT insert LPAREN LCURL term RCURL RPAREN
 #
-#   term : KEY COLON value
+#   term : key COLON value
 #        | term COMMA term
+#
+#   key : CHARACTER
+#
+#   db : CHARACTER
+#
+#   table : CHARACTER
+#
+#   insert : CHARACTER
 #
 #   value : CHARACTER
 #         | INTEGER
@@ -60,19 +68,47 @@ lexer = lex()
 # specified in the docstring.
 def p_expression(p):
     '''
-    expression : DB DOT TABLE DOT INSERT LPAREN LCURL term RCURL RPAREN
+    expression : db DOT table DOT insert LPAREN LCURL term RCURL RPAREN
     '''
 
     # NEED FIX
 
 def p_term(p):
     '''
-    term : KEY COLON value
-        | term COMMA term
+    term : key COLON value
+         | term COMMA term
     '''
 
     # NEED FIX
 
+def p_key_char(p):
+    '''
+    key : CHARACTER
+    '''
+
+    # NEED FIX
+    
+def p_db_char(p):
+    '''
+    db : CHARACTER
+    '''
+
+    # NEED FIX
+    
+def p_table_char(p):
+    '''
+    table : CHARACTER
+    '''
+
+    # NEED FIX
+    
+def p_insert_char(p):
+    '''
+    insert : CHARACTER
+    '''
+
+    # NEED FIX
+    
 def p_value_char(p):
     '''
     value : CHARACTER
