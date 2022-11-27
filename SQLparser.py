@@ -24,8 +24,8 @@ t_ignore = ' \t'
 
 # Token matching rules are written as regexs
 t_CHARACTER = r'[a-zA-Z_][a-zA-Z_]*'
-t_INTEGER = r'[]'   # NEED FIX
-t_FLOAT = r''   # NEED FIX
+t_INTEGER = r'\d+'
+t_FLOAT = r'((\d*\.\d+)(E[\+-]?\d+)?|([1-9]\d*E[\+-]?\d+))'
 t_KEY = r'[a-zA-Z_][a-zA-Z_]*'
 t_COLON = r'\:'
 t_LCURL = r'\{'
