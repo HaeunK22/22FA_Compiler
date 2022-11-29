@@ -14,18 +14,18 @@
 #
 #   insert : CHARACTER
 #
-#   value : QUOT CHARACTER QUOT
+#   value : QUOTE CHARACTER QUOTE
 #         | INTEGER
 #         | FLOAT
 # ------------------------------------------------------------------------------
 
-from ply.lex import lex
-from ply.yacc import yacc
+from src.ply.lex import lex
+from src.ply.yacc import yacc
 
 # --- Tokenizer
 
 # All tokens must be named in advance.
-tokens = ('CHARACTER', 'INTEGER', 'FLOAT', 'QUOT', 'COLON', 'LCURL', 'RCURL', 'LPAREN', 'RPAREN', 'COMMA', 'DOT')
+tokens = ('CHARACTER', 'INTEGER', 'FLOAT', 'QUOTE', 'COLON', 'LCURL', 'RCURL', 'LPAREN', 'RPAREN', 'COMMA', 'DOT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -34,7 +34,7 @@ t_ignore = ' \t'
 t_CHARACTER = r'[a-zA-Z_][a-zA-Z_]*'
 t_INTEGER = r'\d+'
 t_FLOAT = r'((\d*\.\d+)(E[\+-]?\d+)?|([1-9]\d*E[\+-]?\d+))'
-t_QUOT = r'"'
+t_QUOTE = r'"'
 # t_KEY = r'[a-zA-Z_][a-zA-Z_]*'
 t_COLON = r'\:'
 t_LCURL = r'\{'
@@ -62,8 +62,18 @@ def t_error(t):
 
 # Build the lexer object
 lexer = lex()
+lexer.input('db.products.insert({item:"card",qrt:15})')
+while True:
+    tok = lexer.token()
+    if not tok:
+        break      # No more input
+    print(tok)
     
 # --- Parser
+
+db_name = []
+table_name = []
+item ={}
 
 # Write functions for each grammar rule which is
 # specified in the docstring.
@@ -71,7 +81,13 @@ def p_expression(p):
     '''
     expression : db DOT table DOT insert LPAREN LCURL term RCURL RPAREN
     '''
-
+    db_name.append(p[1])
+    table_name.append(p[3])
+    if p[5] == 'insert':
+        pass
+    else:
+        raise Exception("not insert method")
+    print("")
     # NEED FIX
 
 def p_term(p):
@@ -79,27 +95,35 @@ def p_term(p):
     term : key COLON value
          | term COMMA term
     '''
-
     # NEED FIX
+    if p[2] == ',':
+        pass
+    else:
+        item[p[1]] = p[3]
+    
 
 def p_key_char(p):
     '''
     key : CHARACTER
     '''
-
+    p[0] = p[1]
+    print(p[0])
     # NEED FIX
     
 def p_db_char(p):
     '''
     db : CHARACTER
     '''
-
+    p[0] = p[1]
+    print(p[0])
     # NEED FIX
-    
+
 def p_table_char(p):
     '''
     table : CHARACTER
     '''
+    p[0] = p[1]
+    print(p[0])
 
     # NEED FIX
     
@@ -107,28 +131,33 @@ def p_insert_char(p):
     '''
     insert : CHARACTER
     '''
+    p[0] = p[1]
+    print(p[0])
 
     # NEED FIX
     
 def p_value_string(p):
     '''
-    value : QUOT CHARACTER QUOT
+    value : QUOTE CHARACTER QUOTE
     '''
-
+    p[0] = f"{p[1]}{p[2]}{p[3]}"
+    print(p[0])
     # NEED FIX
 
 def p_value_int(p):
     '''
     value : INTEGER
     '''
-
+    p[0] = p[1]
+    print(p[0])
     # NEED FIX
 
 def p_value_char(p):
     '''
     value : FLOAT
     '''
-
+    p[0] = p[1]
+    print(p[0])
     # NEED FIX
 
 def p_error(p):
@@ -139,4 +168,7 @@ parser = yacc()
 
 # Parse an expression
 ast = parser.parse('db.products.insert({item:"card",qrt:15})')
-print(ast)
+#print(ast)
+print(db_name)
+print(table_name)
+print(item)
