@@ -73,6 +73,11 @@ while True:
 
 # Write functions for each grammar rule which is
 # specified in the docstring.
+
+db_name = []
+table_name = []
+item = {} # Item to add in table. key : value
+
 def p_expression(p):
     '''
     expression : db DOT table DOT insert LPAREN LCURL term RCURL RPAREN
