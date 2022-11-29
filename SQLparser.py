@@ -14,7 +14,7 @@
 #
 #   insert : CHARACTER
 #
-#   value : CHARACTER
+#   value : QUOT CHARACTER QUOT
 #         | INTEGER
 #         | FLOAT
 # ------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ from ply.yacc import yacc
 # --- Tokenizer
 
 # All tokens must be named in advance.
-tokens = ('CHARACTER', 'INTEGER', 'FLOAT', 'COLON', 'LCURL', 'RCURL', 'LPAREN', 'RPAREN', 'COMMA', 'DOT')
+tokens = ('CHARACTER', 'INTEGER', 'FLOAT', 'QUOT', 'COLON', 'LCURL', 'RCURL', 'LPAREN', 'RPAREN', 'COMMA', 'DOT')
 
 # Ignored characters
 t_ignore = ' \t'
@@ -34,6 +34,7 @@ t_ignore = ' \t'
 t_CHARACTER = r'[a-zA-Z_][a-zA-Z_]*'
 t_INTEGER = r'\d+'
 t_FLOAT = r'((\d*\.\d+)(E[\+-]?\d+)?|([1-9]\d*E[\+-]?\d+))'
+t_QUOT = r'"'
 # t_KEY = r'[a-zA-Z_][a-zA-Z_]*'
 t_COLON = r'\:'
 t_LCURL = r'\{'
@@ -109,9 +110,9 @@ def p_insert_char(p):
 
     # NEED FIX
     
-def p_value_char(p):
+def p_value_string(p):
     '''
-    value : CHARACTER
+    value : QUOT CHARACTER QUOT
     '''
 
     # NEED FIX
@@ -137,5 +138,5 @@ def p_error(p):
 parser = yacc()
 
 # Parse an expression
-ast = parser.parse('2 * 3 + 4 * (5 - x)')
+ast = parser.parse('db.products.insert({item:"card",qrt:15})')
 print(ast)
